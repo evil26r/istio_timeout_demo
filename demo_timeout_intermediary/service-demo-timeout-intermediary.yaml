@@ -1,0 +1,21 @@
+﻿kind: Service
+apiVersion: v1
+metadata:
+  name: demo-timeout-intermediary
+  namespace: test-project
+  selfLink: /api/v1/namespaces/test-project/services/demo-timeout-intermediary
+  uid: a0a0c582-2043-4526-b1e8-a7bf2600ecc0
+  resourceVersion: '1071027'
+  creationTimestamp: '2020-05-28T08:28:15Z'
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    app: demo-timeout-intermediary
+  clusterIP: 172.30.243.233
+  type: ClusterIP
+  sessionAffinity: None
+status:
+  loadBalancer: {}

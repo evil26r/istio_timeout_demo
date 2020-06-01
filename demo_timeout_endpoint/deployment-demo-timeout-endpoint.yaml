@@ -1,0 +1,68 @@
+﻿kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: demo-timeout-endpoint
+  namespace: test-project
+  selfLink: /apis/apps/v1/namespaces/test-project/deployments/demo-timeout-endpoint
+  uid: 885df633-7024-4150-8272-aa4216999ba7
+  resourceVersion: '1654903'
+  generation: 2
+  creationTimestamp: '2020-05-28T08:21:17Z'
+  annotations:
+    deployment.kubernetes.io/revision: '2'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-timeout-endpoint
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: demo-timeout-endpoint
+      annotations:
+        sidecar.istio.io/inject: 'true'
+    spec:
+      containers:
+        - name: demo-timeout-endpoint
+          image: evil26r/demo_timeout_endpoint
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+status:
+  observedGeneration: 2
+  replicas: 1
+  updatedReplicas: 1
+  readyReplicas: 1
+  availableReplicas: 1
+  conditions:
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2020-05-28T08:52:22Z'
+      lastTransitionTime: '2020-05-28T08:21:17Z'
+      reason: NewReplicaSetAvailable
+      message: >-
+        ReplicaSet "demo-timeout-endpoint-55f6789548" has successfully
+        progressed.
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2020-05-31T19:21:28Z'
+      lastTransitionTime: '2020-05-31T19:21:28Z'
+      reason: MinimumReplicasAvailable
+      message: Deployment has minimum availability.

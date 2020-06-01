@@ -1,0 +1,73 @@
+﻿kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: demo-timeout-intermediary
+  namespace: test-project
+  selfLink: /apis/apps/v1/namespaces/test-project/deployments/demo-timeout-intermediary
+  uid: 63dae823-d7ba-41e6-ae25-80a6354eaed0
+  resourceVersion: '1654982'
+  generation: 13
+  creationTimestamp: '2020-05-28T08:23:39Z'
+  annotations:
+    deployment.kubernetes.io/revision: '13'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-timeout-intermediary
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: demo-timeout-intermediary
+      annotations:
+        sidecar.istio.io/inject: 'true'
+    spec:
+      containers:
+        - name: demo-timeout-intermediary
+          image: evil26r/demo_timeout_intermediary
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: intermediary.base.url
+              value: 'http://demo-timeout-endpoint.test-project.svc.cluster.local/'
+            - name: endpoint.host
+              value: demo-timeout-endpoint.test-project.svc.cluster.local
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+status:
+  observedGeneration: 13
+  replicas: 1
+  updatedReplicas: 1
+  readyReplicas: 1
+  availableReplicas: 1
+  conditions:
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2020-05-30T15:34:03Z'
+      lastTransitionTime: '2020-05-28T08:23:39Z'
+      reason: NewReplicaSetAvailable
+      message: >-
+        ReplicaSet "demo-timeout-intermediary-5f79546c48" has successfully
+        progressed.
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2020-05-31T19:21:48Z'
+      lastTransitionTime: '2020-05-31T19:21:48Z'
+      reason: MinimumReplicasAvailable
+      message: Deployment has minimum availability.

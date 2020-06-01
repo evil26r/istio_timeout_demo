@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: demo-timeout-intermediary
+  namespace: test-project
+spec:
+  gateways:
+    - istio-ingressgateway
+  hosts:
+    - demo-timeout-intermediary.org
+  http:
+    - route:
+        - destination:
+            host: demo-timeout-intermediary
+      timeout: 2s
