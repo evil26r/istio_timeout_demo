@@ -36,9 +36,9 @@ public class RestControllers {
         return webClient.get()
                 .uri(uriBuilder ->
                         uriBuilder
+                                .host(endpointHost)
                                 .path(path)
                                 .queryParam("durationMs", String.valueOf(durationMs))
-                                .queryParam("Host", endpointHost)
                                 .build())
                 .retrieve()
                 .bodyToMono(String.class)

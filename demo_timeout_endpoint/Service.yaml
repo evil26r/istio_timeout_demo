@@ -3,10 +3,6 @@ apiVersion: v1
 metadata:
   name: demo-timeout-endpoint
   namespace: test-project
-  selfLink: /api/v1/namespaces/test-project/services/demo-timeout-endpoint
-  uid: 98d5e489-5912-431c-8981-876d5c21dadb
-  resourceVersion: '1071868'
-  creationTimestamp: '2020-05-28T08:30:54Z'
 spec:
   ports:
     - protocol: TCP
@@ -17,5 +13,3 @@ spec:
   clusterIP: 172.30.6.30
   type: ClusterIP
   sessionAffinity: None
-status:
-  loadBalancer: {}

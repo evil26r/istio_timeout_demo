@@ -1,14 +1,8 @@
 ﻿apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  creationTimestamp: '2020-05-28T12:55:33Z'
-  generation: 42
   name: demo-timeout-endpoint
   namespace: test-project
-  resourceVersion: '1678176'
-  selfLink: >-
-    /apis/networking.istio.io/v1alpha3/namespaces/test-project/virtualservices/demo-timeout-endpoint
-  uid: c379a39d-2aac-49d5-8abc-93ab50ff91fa
 spec:
   hosts:
     - demo-timeout-endpoint
