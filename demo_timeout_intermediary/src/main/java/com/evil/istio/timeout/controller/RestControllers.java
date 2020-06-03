@@ -36,10 +36,10 @@ public class RestControllers {
         return webClient.get()
                 .uri(uriBuilder ->
                         uriBuilder
-                                .host(endpointHost)
                                 .path(path)
                                 .queryParam("durationMs", String.valueOf(durationMs))
                                 .build())
+                .header("Host", endpointHost)
                 .retrieve()
                 .bodyToMono(String.class)
                 .doOnError(throwable -> log.warn("Error Request!", throwable))
