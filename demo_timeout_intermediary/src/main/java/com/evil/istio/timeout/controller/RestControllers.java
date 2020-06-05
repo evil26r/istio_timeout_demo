@@ -3,6 +3,7 @@ package com.evil.istio.timeout.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -22,8 +24,10 @@ public class RestControllers {
     private final WebClient webClient;
 
     @RequestMapping
-    public Mono<String> withDuration(@RequestParam(value = "durationMsIntermediary", defaultValue = "0") long durationMsIntermediary) {
+    public Mono<String> withDuration(@RequestParam(value = "durationMsIntermediary", defaultValue = "0") long durationMsIntermediary,
+                                     @RequestHeader Map<String, String> headers) {
         log.info("Receive request. DurationMs: [{}]", durationMsIntermediary);
+        log.info("Incoming headers: [{}]", headers);
         return Mono.just("Duration ms: " + durationMsIntermediary)
                 .delayElement(Duration.ofMillis(durationMsIntermediary));
     }
@@ -31,8 +35,10 @@ public class RestControllers {
     @RequestMapping("chain")
     public Mono<String> withDurationToIntermediary(@RequestParam(value = "path", defaultValue = "/") String path,
                                                    @RequestParam(value = "durationMs", defaultValue = "0") long durationMs,
-                                                   @RequestParam(value = "durationMsIntermediary", defaultValue = "0") long durationMsIntermediary) {
+                                                   @RequestParam(value = "durationMsIntermediary", defaultValue = "0") long durationMsIntermediary,
+                                                   @RequestHeader Map<String, String> headers) {
         log.info("Receive request. DurationMs: [{}], DurationMsIntermediary: [{}]. Path: [{}]", durationMs, durationMsIntermediary, path);
+        log.info("Incoming headers: [{}]", headers);
         return webClient.get()
                 .uri(uriBuilder ->
                         uriBuilder
