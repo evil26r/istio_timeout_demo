@@ -52,12 +52,15 @@ public class RestControllers {
                 .map(response -> "DurationMsIntermediary: " + durationMsIntermediary + " " + response);
     }
 
-    @RequestMapping(value = {"coefficient", "coefficient/{coefficient}"})
+    @RequestMapping("coefficient/{coefficient}")
     public Mono<Double> setCoefficient(@PathVariable Double coefficient) {
-        if (coefficient != null) {
-            log.info("Incoming coefficient: [{}]", coefficient);
-            this.coefficient = coefficient;
-        }
+        log.info("Incoming coefficient: [{}]", coefficient);
+        this.coefficient = coefficient;
         return Mono.just(this.coefficient);
+    }
+
+    @RequestMapping("coefficient")
+    public Mono<Double> getCoefficient() {
+        return Mono.just(coefficient);
     }
 }
