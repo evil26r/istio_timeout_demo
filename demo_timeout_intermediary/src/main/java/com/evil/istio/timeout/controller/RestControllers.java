@@ -25,8 +25,7 @@ public class RestControllers {
     @RequestMapping
     public Mono<String> withDuration(@RequestParam(value = "durationMsIntermediary", defaultValue = "0") long durationMsIntermediary,
                                      @RequestHeader Map<String, String> headers) {
-        log.info("Receive request. DurationMs: [{}]", durationMsIntermediary);
-        log.info("Incoming headers: [{}]", headers);
+        log.info("[{}] Receive request. DurationMs: [{}]", headers.get("x-b3-spanid"), durationMsIntermediary);
         return Mono.just("Duration ms: " + durationMsIntermediary)
                 .delayElement(Duration.ofMillis((long) (durationMsIntermediary * coefficient)));
     }
@@ -36,8 +35,7 @@ public class RestControllers {
                                                    @RequestParam(value = "durationMs", defaultValue = "0") long durationMs,
                                                    @RequestParam(value = "durationMsIntermediary", defaultValue = "0") long durationMsIntermediary,
                                                    @RequestHeader Map<String, String> headers) {
-        log.info("Receive request. DurationMs: [{}], DurationMsIntermediary: [{}]. Path: [{}]", durationMs, durationMsIntermediary, path);
-        log.info("Incoming headers: [{}]", headers);
+        log.info("[{}] Receive request. DurationMs: [{}], DurationMsIntermediary: [{}]. Path: [{}]", headers.get("x-b3-spanid"), durationMs, durationMsIntermediary, path);
         return webClient.get()
                 .uri(uriBuilder ->
                         uriBuilder

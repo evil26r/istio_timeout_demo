@@ -9,6 +9,12 @@ spec:
   hosts:
     - demo-timeout-intermediary.org
   http:
-    - route:
+    - retries:
+        attempts: 2
+        perTryTimeout: 60ms
+        retryOn: 5xx
+      route:
         - destination:
             host: demo-timeout-intermediary
+            subset: v1
+      timeout: 15000s

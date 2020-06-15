@@ -10,6 +10,3 @@ spec:
       targetPort: 8080
   selector:
     app: demo-timeout-endpoint
-  clusterIP: 172.30.6.30
-  type: ClusterIP
-  sessionAffinity: None

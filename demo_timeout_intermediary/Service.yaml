@@ -1,22 +1,12 @@
-﻿apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
+﻿kind: Service
+apiVersion: v1
 metadata:
-  name: rate-limit-server-vs
+  name: demo-timeout-intermediary
   namespace: test-project
 spec:
-  gateways:
-    - istio-ingressgateway
-  hosts:
-    - rate-limit-server.test-project.svc.cluster.local
-  http:
-    - route:
-        - destination:
-            host: rate-limit-server.test-project.svc.cluster.local
-  tcp:
-    - match:
-        - port: 8081
-      route:
-        - destination:
-            host: rate-limit-server.test-project.svc.cluster.local
-            port:
-              number: 8081
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  selector:
+    app: demo-timeout-intermediary
